@@ -1,69 +1,77 @@
-# Projekt-Installationsanleitung
+# Task Management Web Application
 
-Dieses Dokument beschreibt, wie das Projekt lokal auf dem eigenen Rechner gestartet werden kann. Entwickelt und getestet wurde mit IntelliJ IDEA.
+A Scrum-based task management web application developed as part of a university Software Engineering course.
 
-## Voraussetzungen
+The application enables teams to manage projects, organize tasks, assign responsibilities, and collaborate efficiently through a modern web interface.
 
-- Java 17 oder höher
+## Features
+
+- User authentication and authorization with Spring Security
+- Task and backlog management
+- RESTful API
+- File upload and download
+- Docker support
+- Unit and REST testing with JUnit and MockMvc
+- UML-based software design
+
+## Tech Stack
+
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Thymeleaf
+- Gradle
+- Docker
+- JUnit
+- Git
+
+## My Contributions
+
+This project was developed in a team of four students.
+
+My main responsibilities included:
+
+- Backend architecture (Controller, Service, Repository)
+- Implementation of REST endpoints
+- Spring Security authentication
+- File upload and download functionality
+- Unit and REST testing using JUnit and MockMvc
+- Git-based collaboration
+
+## Project Structure
+
+```
+src/
+ ├── main/
+ ├── test/
+gradle/
+build.gradle
+compose.yaml
+```
+
+## Getting Started
+
+### Requirements
+
+- Java 17+
 - Gradle
 - Git
-- IntelliJ IDEA (Community oder Ultimate Edition)
 
-## Projekt herunterladen und starten
+### Run locally
 
-1. Repository klonen:
+```bash
+git clone <repository-url>
+cd task-management-webapp
+./gradlew bootRun
+```
 
-   ```bash
-   git clone <REPOSITORY_LINK>
-   cd <PROJEKT_ORDNER>
-   ```
-
-2. Projekt in IntelliJ öffnen:
-
-    - IntelliJ starten.
-    - "Open" auswählen und den geklonten Projektordner öffnen.
-    - IntelliJ sollte das Projekt automatisch als Gradle-Projekt erkennen.
-    - Falls nicht, im Projektfenster rechtsklick → "Add Framework Support..." → "Gradle" auswählen.
-
-3. Abhängigkeiten herunterladen:
-
-    - Gradle lädt normalerweise automatisch alle benötigten Abhängigkeiten.
-    - Falls das nicht passiert, im Gradle-Tab auf "Reload All Gradle Projects" klicken.
-
-4. Anwendung starten:
-
-    - In IntelliJ in der Hauptklasse (mit `@SpringBootApplication`) Rechtsklick → "Run" auswählen.
-
-   oder alternativ im Terminal:
-
-   ```bash
-   ./gradlew bootRun
-   ```
-
-## Zugriff auf die Anwendung
-
-Nach dem Start ist die Anwendung unter folgender Adresse erreichbar:
+The application starts on:
 
 ```
 http://localhost:8080
 ```
 
-Wenn ein anderer Port verwendet wird, kann dieser in der Datei `application.properties` oder `application.yml` angepasst werden.
+## About
 
-## Datenbank (H2-Konsole)
-
-Das Projekt verwendet eine H2 In-Memory-Datenbank.
-
-Die Konsole ist erreichbar unter:
-
-```
-http://localhost:8080/h2-console
-```
-
-Login-Daten:
-
-- JDBC URL: `jdbc:h2:mem:testdb`
-- Benutzername: `sa`
-- Passwort: password
-
-Wenn die Konsole nicht erreichbar ist, prüfen ob `spring.h2.console.enabled=true` in `application.properties` gesetzt ist.
+This project was created for educational purposes within the Software Engineering course at the University of Rostock.
