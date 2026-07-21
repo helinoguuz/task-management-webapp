@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – TaskSync</title>
+    <link rel="stylesheet" href="/css/styles.css"/>
+</head>
+<body>
+<header class="navbar">
+    <div class="container nav-content">
+        <a href="/" class="logo">TaskSync</a>
+
+        <nav>
+            <a href="/register" class="nav-btn">Register</a>
+        </nav>
+    </div>
+</header>
+
+<section class="form-section">
+    <div class="form-box">
+        <h2>Login</h2>
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+        <form action="/login" method="post">
+            <label for="email">E-Mail</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Passwort</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="cta-btn full-width">Login</button>
+        </form>
+        <p class="form-footer-text">Noch kein Konto? <a href="/register">Jetzt registrieren</a></p>
+        <p><a href="/reset-password-request">Passwort vergessen?</a></p>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Profil ansehen</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+<div class="main-container">
+  <div class="profile-header">
+    <div class="avatar-box">
+      <img class="avatar"
+           th:if="${user.profilePictureUrl != null}"
+           th:src="@{${user.profilePictureUrl}}"/>
+
+      <img class="avatar"
+           th:unless="${user.profilePictureUrl != null}"
+           th:src="@{/css/images/profileicon.jpg}"/>
+    </div>
+
+    <div class="header-info">
+      <h1 th:text="${user.name}">Nutzername</h1>
+      <p th:text="${user.email}">nutzer@email.de</p>
+      <span class="badge" th:text="${user.role}">ROLE_USER</span>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="bio-section">
+      <label class="bio-label">Über mich:</label>
+      <div class="bio-text" th:text="${user.bio != null ? user.bio : 'Keine Bio vorhanden.'}">
+        Keine Bio vorhanden.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

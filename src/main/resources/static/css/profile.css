@@ -1,0 +1,113 @@
+body {
+    background-color: #f5faff;
+    color: #0a2540;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    margin-left: 250px; /* sidebar boşluğu */
+    padding: 2rem;
+    max-width: 1000px;
+    margin-top: 80px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.avatar-box {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary);
+    flex-shrink: 0;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.header-info h1 {
+    font-size: 2rem;
+    margin: 0;
+    color: var(--primary);
+}
+
+.header-info p {
+    margin: 0.3rem 0;
+    color: #333;
+    font-size: 1rem;
+}
+
+.badge {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 0.3rem;
+}
+
+.profile-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.profile-form label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+.profile-form input,
+.profile-form textarea {
+    padding: 0.7rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.profile-form button {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-form button:hover {
+    background-color: #005fa3;
+}

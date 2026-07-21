@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Task Übersicht</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+<div class="table-responsive">
+  <h1 class="text-center mb-4">📋 Aufgabenübersicht</h1>
+
+  <div class="mb-3 d-flex justify-content-between">
+    <a href="/index" class="btn btn-outline-primary">← Zurück zur Startseite</a>
+    <a href="/tasks/new" class="btn btn-success">+ Neue Aufgabe erstellen</a>
+  </div>
+
+  <form method="get" action="/tasks" class="mb-4 d-flex align-items-center gap-2 flex-wrap">
+    <!-- Priority Dropdown -->
+    <label for="priority" class="form-label mb-0">Priorität:</label>
+    <select name="priority" id="priority" class="form-select w-auto">
+      <option value="">Alle</option>
+      <option value="LOW" th:selected="${selectedPriority == 'LOW'}">Low</option>
+      <option value="MEDIUM" th:selected="${selectedPriority == 'MEDIUM'}">Medium</option>
+      <option value="HIGH" th:selected="${selectedPriority == 'HIGH'}">High</option>
+      <option value="URGENT" th:selected="${selectedPriority == 'URGENT'}">Urgent</option>
+    </select>
+
+    <!-- Status Dropdown -->
+    <label for="status" class="form-label mb-0">Status:</label>
+    <select name="status" id="status" class="form-select w-auto">
+      <option value="">Alle</option>
+      <option value="NEW" th:selected="${selectedStatus == 'NEW'}">Neu</option>
+      <option value="IN_PROGRESS" th:selected="${selectedStatus == 'IN_PROGRESS'}">In Bearbeitung</option>
+      <option value="COMPLETED" th:selected="${selectedStatus == 'COMPLETED'}">Erledigt</option>
+    </select>
+
+    <label for="sort" class="form-label mb-0">Sortieren nach:</label>
+    <select name="sort" id="sort" class="form-select w-auto">
+      <option value="priority" th:selected="${selectedSort == 'priority'}">Priorität</option>
+      <option value="createdAt" th:selected="${selectedSort == 'createdAt'}">Erstellungsdatum</option>
+    </select>
+
+    <label for="order" class="form-label mb-0">Sortierung:</label>
+    <select name="order" id="order" class="form-select w-auto">
+      <!-- Wenn nach Priorität sortiert wird -->
+      <option th:if="${selectedSort == 'priority'}" value="asc" th:selected="${selectedOrder == 'asc'}">Niedrige → Hohe Priorität</option>
+      <option th:if="${selectedSort == 'priority'}" value="desc" th:selected="${selectedOrder == 'desc'}">Hohe → Niedrige Priorität</option>
+
+      <!-- Wenn nach Erstellungsdatum sortiert wird -->
+      <option th:if="${selectedSort == 'createdAt'}" value="asc" th:selected="${selectedOrder == 'asc'}">Älteste → Neueste Aufgaben</option>
+      <option th:if="${selectedSort == 'createdAt'}" value="desc" th:selected="${selectedOrder == 'desc'}">Neueste → Älteste Aufgaben</option>
+
+      <option value="" th:if="${selectedSort == null or selectedSort == ''}" selected>Sort.</option>
+    </select>
+
+    <button type="submit" class="btn btn-outline-primary btn-sm">Filtern</button>
+
+    <!-- Reset Button -->
+    <a th:href="@{/tasks(sort='createdAt', order='asc')}" class="btn btn-outline-danger btn-sm">Zurücksetzen</a>  </form>
+
+  <div class="alert alert-info">
+    <strong>Aktive Filter:</strong>
+
+    <span th:if="${selectedPriority != null}" th:text="'Priorität: ' + ${selectedPriority}"></span>
+    <span th:if="${selectedPriority != null and selectedStatus != null}"> | </span>
+
+    <span th:if="${selectedStatus != null}" th:text="'Status: ' + ${selectedStatus}"></span>
+    <span th:if="(${selectedPriority != null or selectedStatus != null}) and ${selectedOrder != null}"> | </span>
+
+    <span th:if="${selectedOrder != null}">
+  <span th:if="${selectedSort == 'priority'}"
+        th:text="'Sortierung: ' + (${selectedOrder == 'desc'} ? 'Hohe → Niedrige Priorität' : 'Niedrige → Hohe Priorität')"></span>
+  <span th:if="${selectedSort == 'createdAt'}"
+        th:text="'Sortierung: ' + (${selectedOrder == 'desc'} ? 'Neueste → Älteste Aufgaben' : 'Älteste → Neueste Aufgaben')"></span>
+</span>
+
+    <span th:if="${selectedPriority == null and selectedStatus == null and selectedOrder == null}">Keine</span>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-primary">
+    <tr>
+      <th>Titel</th>
+      <th>Beschreibung</th>
+      <th>Priorität</th>
+      <th>Status</th>
+      <th>Zugewiesen an</th>
+      <th>Erstellt am</th>
+      <th>User Story</th>
+      <th>Dateien</th>
+      <th>Aktion</th>
+      <th>Verantwortlichen ändern</th>
+      <th>Datei hinzufügen</th>
+      <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+      <td th:text="${task.title}">Titel</td>
+      <td th:text="${task.description}">Beschreibung</td>
+      <td th:text="${task.priority}">Priorität</td>
+      <td th:text="${task.status}">Status</td>
+      <td>
+  <span th:if="${task.assignedUser != null}"
+        class="badge bg-primary"
+        th:title="${task.assignedUser.email}"
+        th:text="${task.assignedUser.name}">
+  </span>
+        <span th:if="${task.assignedUser == null}" class="text-muted">Unassigned</span>
+      </td>      <td th:text="${#temporals.format(task.createdAt, 'dd.MM.yyyy HH:mm')}">Datum</td>
+      <td th:text="${task.userStoryId != null ? task.userStoryId : '—'}">User Story</td>
+      <td>
+        <ul th:if="${#lists.size(task.files) > 0}">
+          <li th:each="file : ${task.files}">
+            <span th:if="${file.filePath == null}" th:text="|${file.fileName} (kein Pfad)|"></span>
+            <a th:href="@{'/download/' + ${file.storedFileName}}"
+               th:text="${file.fileName}"
+               target="_blank"
+               download>
+            </a>
+          </li>
+        </ul>
+        <span th:if="${#lists.size(task.files) == 0}">Keine</span>
+      </td>
+
+      <!-- Status (Abschließen/Wieder öffnen) -->
+      <td style="white-space: nowrap;">
+        <form th:action="@{'/tasks/' + ${task.id} + '/status'}" method="post">
+          <input type="hidden" name="status"
+                 th:value="${task.status.name() == 'COMPLETED' ? 'NEW' : 'COMPLETED'}" />
+          <button type="submit"
+                  class="btn btn-sm"
+                  th:classappend="${task.status.name() == 'COMPLETED' ? 'btn-warning' : 'btn-success'}"
+                  th:text="${task.status.name() == 'COMPLETED' ? '↺ Wieder öffnen' : '✔ Abschließen'}">
+          </button>
+        </form>
+      </td>
+
+      <!-- Priority ändern -->
+      <td>
+        <form th:action="@{'/tasks/' + ${task.id} + '/assign'}" method="post" class="d-flex flex-wrap align-items-center gap-2">
+          <select name="userId" class="form-select form-select-sm w-auto" style="min-width: 100px;">
+            <option th:each="user : ${allUsers}"
+                    th:value="${user.id}"
+                    th:text="${user.name}"
+                    th:selected="${task.assignedUser?.id == user.id}">
+            </option>
+          </select>
+          <button type="submit" class="btn btn-sm btn-primary">Ändern</button>
+        </form>
+      </td>
+
+      <!-- Datei hinzufügen -->
+      <td>
+        <form th:action="@{'/tasks/' + ${task.id} + '/upload'}"
+              method="post"
+              enctype="multipart/form-data">
+          <input type="file" name="file" class="form-control form-control-sm mb-2" required />
+          <button type="submit" class="btn btn-sm btn-secondary">📎 Datei hochladen</button>
+        </form>
+      </td>
+      <td>
+        <a th:href="@{'/tasks/' + ${task.id}}" class="btn btn-sm btn-outline-info">🔍</a>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

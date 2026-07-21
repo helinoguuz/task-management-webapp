@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mein Team</title>
+    <link rel="stylesheet" href="/css/team.css">
+</head>
+<body>
+<div class="container">
+    <h1>Mein Team</h1>
+    <ul class="user-list">
+        <li th:each="u : ${users}">
+            <a th:href="@{'/profile/view/' + ${u.id}}" th:text="${u.name}">Name</a>
+            <span th:text="' – ' + ${u.role}">Rolle</span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
